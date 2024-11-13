@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "492443193627",
+    "project_id": "beatfit-4eef8",
+    "storage_bucket": "beatfit-4eef8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492443193627:android:49cf1ecd06b5e31e9803be",
+        "android_client_info": {
+          "package_name": "com.example.beatfit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgT3ZqiDoja2juOmEc3Pj39KVG88xM0Uk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
