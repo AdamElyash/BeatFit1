@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- טקסט שמקבל את פני המשתמש -->
+    <TextView
+        android:id="@+id/welcome_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome! Please choose your preferences"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="16dp" />
+
+    <!-- שדה להזנת סוג המוזיקה האהובה -->
+    <EditText
+        android:id="@+id/music_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your favorite music"
+        android:inputType="text"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <!-- שדה להזנת סוג הספורט -->
+    <EditText
+        android:id="@+id/sport_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your favorite sport"
+        android:inputType="text"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <!-- כפתור מעבר לעמוד הבא -->
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Next" />
+</LinearLayout>
