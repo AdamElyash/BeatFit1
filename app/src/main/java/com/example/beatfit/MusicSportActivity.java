@@ -24,7 +24,7 @@ public class MusicSportActivity extends AppCompatActivity {
         sportEditText = findViewById(R.id.sport_edit_text);
         Button nextButton = findViewById(R.id.next_button);
 
-        // קבלת שם המשתמש מה-LoginActivity
+        // קבלת שם המשתמש מה-Login
         String username = getIntent().getStringExtra("USERNAME");
         welcomeTextView.setText("Hello, " + username + "! Select your favorite music and sports types.");
 

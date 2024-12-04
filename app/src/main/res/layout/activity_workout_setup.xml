@@ -1,0 +1,35 @@
+<!-- activity_workout_setup.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <EditText
+        android:id="@+id/duration_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter workout duration (minutes)"
+        android:layout_marginTop="24dp"
+        android:padding="12dp" />
+
+    <EditText
+        android:id="@+id/intensity_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter workout intensity (1-10)"
+        android:layout_below="@id/duration_edit_text"
+        android:layout_marginTop="16dp"
+        android:padding="12dp" />
+
+    <Button
+        android:id="@+id/start_workout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Workout"
+        android:layout_below="@id/intensity_edit_text"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/purple_500"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

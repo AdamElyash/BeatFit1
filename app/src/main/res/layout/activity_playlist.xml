@@ -1,0 +1,27 @@
+<!-- activity_playlist.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <TextView
+        android:id="@+id/playlist_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Generating your playlist..."
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:layout_centerInParent="true"
+        android:gravity="center" />
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Continue"
+        android:layout_below="@id/playlist_message"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/purple_500"
+        android:textColor="@android:color/white" />
+</RelativeLayout>
