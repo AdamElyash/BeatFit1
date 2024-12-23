@@ -7,32 +7,23 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-/**
- * WorkoutActivity
- * מסך זה מציג טיימר ואנימציות לאימון בפועל.
- */
 public class WorkoutActivity extends AppCompatActivity {
-    private CountDownTimer countDownTimer;
-    private TextView timerTextView;
-    private ProgressBar progressBar;
 
-    private long totalTime = 30 * 1000; // זמן האימון (30 שניות לדוגמה)
-    private long interval = 1000;      // עדכון כל שנייה
+    private CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
 
-        timerTextView = findViewById(R.id.timer_text);
-        progressBar = findViewById(R.id.progress_bar);
+        TextView timerTextView = findViewById(R.id.timer_text);
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+
+        long totalTime = 30 * 1000; // 30 שניות
+        long interval = 1000;
 
         progressBar.setMax((int) (totalTime / interval));
 
-        startWorkout();
-    }
-
-    private void startWorkout() {
         countDownTimer = new CountDownTimer(totalTime, interval) {
             @Override
             public void onTick(long millisUntilFinished) {

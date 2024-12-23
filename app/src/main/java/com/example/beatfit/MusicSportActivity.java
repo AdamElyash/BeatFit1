@@ -1,6 +1,5 @@
 package com.example.beatfit;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -13,7 +12,6 @@ public class MusicSportActivity extends AppCompatActivity {
 
     private EditText musicEditText, sportEditText;
 
-    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +22,6 @@ public class MusicSportActivity extends AppCompatActivity {
         sportEditText = findViewById(R.id.sport_edit_text);
         Button nextButton = findViewById(R.id.next_button);
 
-        // קבלת שם המשתמש מה-Login
         String username = getIntent().getStringExtra("USERNAME");
         welcomeTextView.setText("Hello, " + username + "! Select your favorite music and sports types.");
 
@@ -37,6 +34,7 @@ public class MusicSportActivity extends AppCompatActivity {
             intent.putExtra("sport", sport);
             intent.putExtra("USERNAME", username);
             startActivity(intent);
+
         });
     }
 }

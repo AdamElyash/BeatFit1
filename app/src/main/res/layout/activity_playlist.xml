@@ -1,27 +1,57 @@
-<!-- activity_playlist.xml -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/playlist_message"
+    <!-- Background Image -->
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Generating your playlist..."
-        android:textSize="18sp"
-        android:textColor="@android:color/white"
-        android:layout_centerInParent="true"
-        android:gravity="center" />
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_image_activty_playlist" />
 
-    <Button
-        android:id="@+id/next_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Continue"
-        android:layout_below="@id/playlist_message"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="@color/purple_500"
-        android:textColor="@android:color/white" />
-</RelativeLayout>
+    <!-- Transparent Overlay -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000" />
+
+    <!-- Content Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center">
+
+        <!-- Playlist Message -->
+        <TextView
+            android:id="@+id/playlist_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Generating your playlist..."
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3"
+            android:paddingBottom="32dp" />
+
+        <!-- Next Button -->
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:textSize="16sp"
+            android:background="@drawable/rounded_button"
+            android:textColor="#000000"
+            android:padding="12dp"
+            tools:ignore="VisualLintButtonSize" />
+
+    </LinearLayout>
+</FrameLayout>

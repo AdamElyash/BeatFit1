@@ -7,23 +7,16 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-/**
- * WorkoutSetupActivity
- * מסך זה מאפשר למשתמש להגדיר את משך ועוצמת האימון.
- */
 public class WorkoutSetupActivity extends AppCompatActivity {
-
-    private EditText durationEditText, intensityEditText;
-    private Button startWorkoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_setup);
 
-        durationEditText = findViewById(R.id.duration_edit_text);
-        intensityEditText = findViewById(R.id.intensity_edit_text);
-        startWorkoutButton = findViewById(R.id.start_workout_button);
+        EditText durationEditText = findViewById(R.id.duration_edit_text);
+        EditText intensityEditText = findViewById(R.id.intensity_edit_text);
+        Button startWorkoutButton = findViewById(R.id.start_workout_button);
 
         startWorkoutButton.setOnClickListener(v -> {
             String duration = durationEditText.getText().toString();
