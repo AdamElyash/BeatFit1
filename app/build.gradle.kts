@@ -44,4 +44,8 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.google.android.gms:play-services-auth:20.7.0")
+    implementation ("com.spotify.android:auth:1.2.3")
+    implementation("com.google.firebase:firebase-database:20.2.2")
+
+
 }

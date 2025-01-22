@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Background Image -->
+    <!-- תמונת הרקע -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/background_image" />
 
-    <!-- Transparent Overlay -->
+    <!-- שכבת חפיפה שקופה להדגשת הטקסט -->
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#80000000" />
 
-    <!-- Content Layout -->
+    <!-- פריסת התוכן -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,7 +26,7 @@
         android:padding="16dp"
         android:gravity="center">
 
-        <!-- Welcome Text -->
+        <!-- טקסט ברכה למשתמש -->
         <TextView
             android:id="@+id/welcome_text_view"
             android:layout_width="wrap_content"
@@ -42,31 +42,31 @@
             android:shadowRadius="3"
             android:paddingBottom="32dp" />
 
-        <!-- Favorite Music Input -->
+        <!-- שדה טקסט לסוג המוזיקה -->
         <EditText
             android:id="@+id/music_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter your favorite music genere"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:hint="Enter your favorite music genre"
+            android:background="@drawable/rounded_button"
             android:padding="12dp"
-            android:background="@drawable/rounded_edit_text_with_border"
-            android:textColorHint="@android:color/white"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="16dp" />
+            android:textColor="#000000"
+            android:textSize="16sp" />
 
-        <!-- Favorite Sport Input -->
+        <!-- שדה טקסט לסוג הספורט -->
         <EditText
             android:id="@+id/sport_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter your favorite sport"
+            android:layout_height="48dp"
+            android:layout_marginBottom="24dp"
+            android:hint="Enter your favorite sport type"
+            android:background="@drawable/rounded_button"
             android:padding="12dp"
-            android:background="@drawable/rounded_edit_text_with_border"
-            android:textColorHint="@android:color/white"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="24dp" />
+            android:textColor="#000000"
+            android:textSize="16sp" />
 
-        <!-- Next Button -->
+        <!-- כפתור מעבר למסך הבא -->
         <Button
             android:id="@+id/next_button"
             android:layout_width="match_parent"
@@ -76,10 +76,7 @@
             android:background="@drawable/rounded_button"
             android:textColor="#000000"
             android:padding="12dp"
-            tools:ignore="VisualLintButtonSize"
-            />
-
-
+            tools:ignore="VisualLintButtonSize" />
 
     </LinearLayout>
 </FrameLayout>
