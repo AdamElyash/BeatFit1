@@ -100,7 +100,7 @@ public class PlaylistActivity extends AppCompatActivity {
                 connection.setReadTimeout(15000);
 
                 int responseCode = connection.getResponseCode();
-                Log.d(TAG, "📡 Response Code: " + responseCode);
+                Log.d(TAG, " Response Code: " + responseCode);
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -114,7 +114,7 @@ public class PlaylistActivity extends AppCompatActivity {
                     JSONObject playlistsObject = jsonResponse.getJSONObject("playlists");
                     JSONArray playlistsArray = playlistsObject.getJSONArray("items");
 
-                    Log.d(TAG, "📌 Found " + playlistsArray.length() + " playlists.");
+                    Log.d(TAG, " Found " + playlistsArray.length() + " playlists.");
 
                     for (int i = 0; i < playlistsArray.length(); i++) {
                         JSONObject playlist = playlistsArray.getJSONObject(i);
@@ -130,16 +130,16 @@ public class PlaylistActivity extends AppCompatActivity {
                         playlists.add(new PlaylistItem(playlistName, playlistUrl));
                     }
                 } else {
-                    Log.e(TAG, "❌ Failed to fetch playlists: Response code " + responseCode);
+                    Log.e(TAG, " Failed to fetch playlists: Response code " + responseCode);
                 }
             } catch (Exception e) {
-                Log.e(TAG, "⚠️ Error fetching playlists", e);
+                Log.e(TAG, " Error fetching playlists", e);
             } finally {
                 try {
                     if (reader != null) reader.close();
                     if (connection != null) connection.disconnect();
                 } catch (Exception e) {
-                    Log.e(TAG, "⚠️ Error closing resources", e);
+                    Log.e(TAG, " Error closing resources", e);
                 }
             }
             return playlists;
@@ -158,7 +158,7 @@ public class PlaylistActivity extends AppCompatActivity {
                 playlists.addAll(result);
                 adapter.notifyDataSetChanged();
                 recyclerView.setVisibility(View.VISIBLE);
-                Log.d(TAG, "✅ Playlists updated in adapter!");
+                Log.d(TAG, " Playlists updated in adapter!");
             }
         }
     }

@@ -26,13 +26,13 @@
         android:padding="16dp"
         android:gravity="center">
 
-        <!-- הודעה על טעינת פלייליסטים -->
+        <!-- כותרת דינאמית -->
         <TextView
-            android:id="@+id/playlist_message"
+            android:id="@+id/playlist_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Loading playlists..."
-            android:textSize="22sp"
+            android:text="Recommended Playlists"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:gravity="center"
@@ -40,7 +40,23 @@
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="4"
-            android:paddingBottom="16dp" />
+            android:paddingBottom="8dp" />
+
+        <!-- הודעה על טעינת פלייליסטים -->
+        <TextView
+            android:id="@+id/playlist_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading playlists..."
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:paddingBottom="12dp" />
 
         <!-- ProgressBar לטעינת הנתונים -->
         <ProgressBar
@@ -65,7 +81,8 @@
             android:shadowDy="2"
             android:shadowRadius="4"
             android:visibility="gone"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:paddingBottom="12dp"/>
 
         <!-- רשימת הפלייליסטים -->
         <androidx.recyclerview.widget.RecyclerView
@@ -73,21 +90,16 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:visibility="gone" />
-
-        <!-- כפתור מעבר ל-WorkoutSetupActivity -->
-        <Button
-            android:id="@+id/btnNextWorkout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Next: Setup Workout"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:background="@drawable/rounded_button"
-            android:padding="12dp"
             android:visibility="gone"
-            android:layout_marginTop="16dp" />
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+        <!-- חיץ לריווח -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:visibility="gone"
+            android:id="@+id/spacerView" />
 
     </LinearLayout>
 </FrameLayout>
