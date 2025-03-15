@@ -1,23 +1,24 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".PlaylistActivity">
 
-    <!-- Background Image -->
+    <!-- רקע -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/background_image_activty_playlist" />
+        android:src="@drawable/kendrickbackground" />
 
-    <!-- Transparent Overlay -->
+    <!-- שכבת חפיפה כהה -->
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#80000000" />
+        android:background="#800000AA" />
 
-    <!-- Content Layout -->
+    <!-- פריסת תוכן -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,33 +26,68 @@
         android:padding="16dp"
         android:gravity="center">
 
-        <!-- Playlist Message -->
+        <!-- הודעה על טעינת פלייליסטים -->
         <TextView
             android:id="@+id/playlist_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Generating your playlist..."
-            android:textSize="24sp"
+            android:text="Loading playlists..."
+            android:textSize="22sp"
             android:textStyle="bold"
+            android:textColor="@android:color/white"
             android:gravity="center"
-            android:textColor="#FFFFFF"
             android:shadowColor="#000000"
             android:shadowDx="2"
             android:shadowDy="2"
-            android:shadowRadius="3"
-            android:paddingBottom="32dp" />
+            android:shadowRadius="4"
+            android:paddingBottom="16dp" />
 
-        <!-- Next Button -->
+        <!-- ProgressBar לטעינת הנתונים -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center" />
+
+        <!-- הודעת שגיאה -->
+        <TextView
+            android:id="@+id/errorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No playlists found"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4"
+            android:visibility="gone"
+            android:layout_gravity="center" />
+
+        <!-- רשימת הפלייליסטים -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
+        <!-- כפתור מעבר ל-WorkoutSetupActivity -->
         <Button
-            android:id="@+id/next_button"
+            android:id="@+id/btnNextWorkout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Next"
-            android:textSize="16sp"
+            android:text="Next: Setup Workout"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
             android:background="@drawable/rounded_button"
-            android:textColor="#000000"
             android:padding="12dp"
-            tools:ignore="VisualLintButtonSize" />
+            android:visibility="gone"
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 </FrameLayout>

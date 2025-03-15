@@ -1,83 +1,97 @@
 package com.example.beatfit;
 
-import android.content.Intent; // ייבוא מחלקת Intent לטיפול במעבר בין מסכים
-import android.os.Bundle; // ייבוא מחלקת Bundle לניהול מצב נתונים בין מסכים
-import android.widget.Button; // ייבוא מחלקת Button לניהול כפתורים
-import android.widget.EditText; // ייבוא מחלקת EditText לטיפול בקלט טקסט של המשתמש
-import android.widget.TextView; // ייבוא מחלקת TextView להצגת טקסט על המסך
-import android.widget.Toast; // ייבוא מחלקת Toast להצגת הודעות קופצות למשתמש
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull; // ייבוא מחלקה לסימון הערות שאינן יכולות להיות null
-import androidx.appcompat.app.AppCompatActivity; // ייבוא מחלקת AppCompatActivity לניהול מסך באפליקציה
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth; // ייבוא FirebaseAuth לניהול משתמשים
-import com.google.firebase.database.DatabaseReference; // ייבוא DatabaseReference לניהול קישור למסד הנתונים
-import com.google.firebase.database.FirebaseDatabase; // ייבוא FirebaseDatabase ליצירת חיבור למסד הנתונים
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MusicSportActivity extends AppCompatActivity {
 
-    // משתנים עבור קלט המשתמש ומסד הנתונים
-    private EditText musicEditText, sportEditText; // שדות קלט עבור מוזיקה וספורט
-    private DatabaseReference userDatabaseReference; // הפניה למסד הנתונים של Firebase
-    private FirebaseAuth auth; // משתנה עבור FirebaseAuth לניהול אימות משתמשים
+    private EditText musicEditText, sportEditText;
+    private DatabaseReference userDatabaseReference;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_music_sport); // הגדרת ממשק המשתמש של המסך
+        setContentView(R.layout.activity_music_sport);
 
-        // אתחול רכיבי ממשק המשתמש
-        TextView welcomeTextView = findViewById(R.id.welcome_text_view); // תיבת טקסט להצגת הודעת קבלת פנים
-        musicEditText = findViewById(R.id.music_edit_text); // שדה קלט עבור סוג המוזיקה
-        sportEditText = findViewById(R.id.sport_edit_text); // שדה קלט עבור סוג הספורט
-        Button nextButton = findViewById(R.id.next_button); // כפתור למעבר למסך הבא
+        TextView welcomeTextView = findViewById(R.id.welcome_text_view);
+        musicEditText = findViewById(R.id.music_edit_text);
+        sportEditText = findViewById(R.id.sport_edit_text);
+        Button nextButton = findViewById(R.id.next_button);
 
-        // אתחול FirebaseAuth וקישור למסד הנתונים של Firebase
-        auth = FirebaseAuth.getInstance(); // קבלת מופע של FirebaseAuth לניהול משתמשים
-        userDatabaseReference = FirebaseDatabase.getInstance().getReference("Users"); // קישור למסד הנתונים תחת ענף "Users"
+        auth = FirebaseAuth.getInstance();
+        userDatabaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
-        // קבלת שם המשתמש שהועבר מ-Intent במסך הקודם
-        String username = getIntent().getStringExtra("USERNAME"); // שם המשתמש
-        // הצגת הודעת קבלת פנים מותאמת אישית למשתמש
-        welcomeTextView.setText("Hello, " + username + "! Select your favorite music and sports types.");
+        String userId = auth.getCurrentUser().getUid();
 
-        // טיפול בלחיצה על כפתור Next
+        // קריאת הנתונים מפיירבייס
+        userDatabaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    // מילוי השדות אם יש נתונים קיימים
+                    if (user.favoriteMusic != null) {
+                        musicEditText.setText(user.favoriteMusic);
+                    }
+                    if (user.favoriteSport != null) {
+                        sportEditText.setText(user.favoriteSport);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(MusicSportActivity.this, "Failed to load user data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         nextButton.setOnClickListener(v -> {
-            // קבלת נתוני המוזיקה והספורט שהוזנו על ידי המשתמש
-            String music = musicEditText.getText().toString().trim(); // קלט סוג המוזיקה
-            String sport = sportEditText.getText().toString().trim(); // קלט סוג הספורט
+            String music = musicEditText.getText().toString().trim();
+            String sport = sportEditText.getText().toString().trim();
 
-            // בדיקה אם שדה המוזיקה ריק
             if (music.isEmpty()) {
-                musicEditText.setError("Please enter your favorite music genre"); // הצגת הודעת שגיאה
-                musicEditText.requestFocus(); // הצבת הסמן בשדה הקלט
-                return; // יציאה מוקדמת מהפעולה
+                musicEditText.setError("Please enter your favorite music genre");
+                musicEditText.requestFocus();
+                return;
             }
 
-            // בדיקה אם שדה הספורט ריק
             if (sport.isEmpty()) {
-                sportEditText.setError("Please enter your favorite sport type"); // הצגת הודעת שגיאה
-                sportEditText.requestFocus(); // הצבת הסמן בשדה הקלט
-                return; // יציאה מוקדמת מהפעולה
+                sportEditText.setError("Please enter your favorite sport type");
+                sportEditText.requestFocus();
+                return;
             }
 
-            // שמירת הנתונים במסד הנתונים של Firebase תחת שם המשתמש הנוכחי
-            String userId = auth.getCurrentUser().getUid(); // קבלת מזהה המשתמש הנוכחי
-            userDatabaseReference.child(userId).child("favoriteMusic").setValue(music); // שמירת סוג המוזיקה
-            userDatabaseReference.child(userId).child("favoriteSport").setValue(sport) // שמירת סוג הספורט
-                    .addOnCompleteListener(task -> { // האזנה לתוצאת הפעולה
-                        if (task.isSuccessful()) {
-                            // אם הפעולה הצליחה - מעבר למסך הבא
-                            Intent intent = new Intent(MusicSportActivity.this, PlaylistActivity.class); // יצירת Intent למעבר למסך רשימת ההשמעה
-                            intent.putExtra("music", music); // העברת סוג המוזיקה
-                            intent.putExtra("sport", sport); // העברת סוג הספורט
-                            intent.putExtra("USERNAME", username); // העברת שם המשתמש
-                            startActivity(intent); // הפעלת המסך הבא
-                        } else {
-                            // אם הפעולה נכשלה - הצגת הודעת שגיאה למשתמש
-                            Toast.makeText(MusicSportActivity.this, "Failed to save data", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            // שמירת הנתונים בפיירבייס
+            userDatabaseReference.child(userId).child("favoriteMusic").setValue(music);
+            userDatabaseReference.child(userId).child("favoriteSport").setValue(sport);
+
+            // Save to SharedPreferences too for the redirect flow
+            getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                    .edit()
+                    .putString("FAVORITE_MUSIC", music)
+                    .putString("FAVORITE_SPORT", sport)
+                    .apply();
+
+            // מעבר למסך החיבור לספוטיפיי
+            Intent intent = new Intent(MusicSportActivity.this, SpotifyLoginActivity.class);
+            intent.putExtra("music", music);
+            intent.putExtra("sport", sport);
+            startActivity(intent);
         });
     }
 }

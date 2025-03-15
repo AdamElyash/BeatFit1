@@ -11,7 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide; // ייבוא Glide לניהול טעינת תמונות
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -36,31 +36,31 @@ public class LoginActivity extends AppCompatActivity {
 
     // Launcher לטיפול בתוצאות Google Sign-In
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(), // חוזה פעילות לקבלת תוצאה
-            new ActivityResultCallback<ActivityResult>() { // Callback שמטפל בתוצאה של הפעולה
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK) { // אם הפעולה הסתיימה בהצלחה
-                        Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData()); // קבלת החשבון מ-Google
+                    if (result.getResultCode() == RESULT_OK) {
+                        Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
                         try {
-                            GoogleSignInAccount signInAccount = accountTask.getResult(ApiException.class); // קבלת פרטי החשבון
-                            AuthCredential authCredential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(), null); // יצירת אישור כניסה מ-Google
+                            GoogleSignInAccount signInAccount = accountTask.getResult(ApiException.class);
+                            AuthCredential authCredential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(), null);
 
                             // התחברות ל-Firebase עם אישור Google
                             auth.signInWithCredential(authCredential).addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) { // אם ההתחברות הצליחה
-                                    saveUserDataToDatabase(); // שמירת נתוני המשתמש במסד הנתונים
+                                if (task.isSuccessful()) {
+                                    saveUserDataToDatabase();
 
                                     // מעבר למסך MusicSportActivity
                                     Intent intent = new Intent(LoginActivity.this, MusicSportActivity.class);
-                                    intent.putExtra("USERNAME", auth.getCurrentUser().getDisplayName()); // העברת שם המשתמש
-                                    startActivity(intent); // הפעלת המסך הבא
-                                } else { // אם ההתחברות נכשלה
-                                    Toast.makeText(LoginActivity.this, "Failed to sign in: " + task.getException(), Toast.LENGTH_SHORT).show(); // הצגת הודעת שגיאה
+                                    intent.putExtra("USERNAME", auth.getCurrentUser().getDisplayName());
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Failed to sign in: " + task.getException(), Toast.LENGTH_SHORT).show();
                                 }
                             });
-                        } catch (ApiException e) { // טיפול בשגיאות בעת קבלת פרטי החשבון
-                            e.printStackTrace(); // הדפסת השגיאה ליומן הבאגים
+                        } catch (ApiException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -70,24 +70,24 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login); // קביעת תצוגת המסך כ-layout של activity_login
+        setContentView(R.layout.activity_login);
 
-        FirebaseApp.initializeApp(this); // אתחול Firebase
+        FirebaseApp.initializeApp(this);
 
         // הגדרת אפשרויות Google Sign-In
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.client_id)) // בקשה לקבלת מזהה ה-token
-                .requestEmail() // בקשה לקבלת כתובת האימייל
+                .requestIdToken(getString(R.string.client_id))
+                .requestEmail()
                 .build();
 
-        googleSignInClient = GoogleSignIn.getClient(this, options); // יצירת GoogleSignInClient עם האפשרויות שהוגדרו
-        auth = FirebaseAuth.getInstance(); // אתחול FirebaseAuth לניהול משתמשים
+        googleSignInClient = GoogleSignIn.getClient(this, options);
+        auth = FirebaseAuth.getInstance();
 
         // טיפול בלחיצה על כפתור Google Sign-In
-        SignInButton signInButton = findViewById(R.id.signIn); // קישור הכפתור לממשק המשתמש
+        SignInButton signInButton = findViewById(R.id.signIn);
         signInButton.setOnClickListener(view -> {
-            Intent intent = googleSignInClient.getSignInIntent(); // יצירת Intent לפתיחת Google Sign-In
-            activityResultLauncher.launch(intent); // הפעלת הפעולה לקבלת התוצאה
+            Intent intent = googleSignInClient.getSignInIntent();
+            activityResultLauncher.launch(intent);
         });
     }
 
@@ -95,24 +95,24 @@ public class LoginActivity extends AppCompatActivity {
      * שמירת נתוני המשתמש הבסיסיים במסד הנתונים של Firebase.
      */
     private void saveUserDataToDatabase() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance(); // קבלת מופע של מסד הנתונים
-        String userId = Objects.requireNonNull(auth.getCurrentUser()).getUid(); // קבלת מזהה המשתמש הנוכחי
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
 
-        // יצירת אובייקט משתמש בסיסי
+        // יצירת אובייקט משתמש בסיסי (ללא העדפות מוזיקה וספורט בשלב זה)
         User user = new User(
-                userId, // מזהה המשתמש
-                auth.getCurrentUser().getDisplayName(), // שם המשתמש
-                auth.getCurrentUser().getEmail(), // כתובת האימייל של המשתמש
-                auth.getCurrentUser().getPhotoUrl() != null ? auth.getCurrentUser().getPhotoUrl().toString() : "" // כתובת התמונה או מחרוזת ריקה
+                userId,
+                auth.getCurrentUser().getDisplayName(),
+                auth.getCurrentUser().getEmail(),
+                auth.getCurrentUser().getPhotoUrl() != null ? auth.getCurrentUser().getPhotoUrl().toString() : ""
         );
 
         // שמירת הנתונים במסד הנתונים תחת ענף "Users"
         database.getReference("Users").child(userId).setValue(user)
-                .addOnCompleteListener(task -> { // האזנה לתוצאת השמירה
-                    if (task.isSuccessful()) { // אם השמירה הצליחה
-                        Toast.makeText(this, "User data saved successfully", Toast.LENGTH_SHORT).show(); // הצגת הודעת הצלחה
-                    } else { // אם השמירה נכשלה
-                        Toast.makeText(this, "Failed to save user data", Toast.LENGTH_SHORT).show(); // הצגת הודעת שגיאה
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this, "User data saved successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Failed to save user data: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
