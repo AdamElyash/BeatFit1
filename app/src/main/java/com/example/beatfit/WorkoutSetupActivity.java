@@ -7,36 +7,40 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * אקטיביטי זה מאפשר למשתמש להגדיר את פרטי האימון לפני תחילתו.
+ * המשתמש מזין את משך האימון ורמת העצימות, ונתונים אלו מועברים למסך האימון בפועל.
+ */
 public class WorkoutSetupActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { // פונקציה המופעלת כאשר האקטיביטי נטען
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_workout_setup);
+        setContentView(R.layout.activity_workout_setup); // קביעת ממשק המשתמש מהקובץ XML
 
-        // אתחול EditText לקבלת משך האימון מהמשתמש
+        // רכיב EditText להזנת משך האימון (בשניות/דקות)
         EditText durationEditText = findViewById(R.id.duration_edit_text);
 
-        // אתחול EditText לקבלת רמת העצימות מהמשתמש
+        // רכיב EditText להזנת רמת העצימות של האימון
         EditText intensityEditText = findViewById(R.id.intensity_edit_text);
 
-        // אתחול כפתור התחלת האימון
+        // כפתור "Start Workout" להתחלת האימון
         Button startWorkoutButton = findViewById(R.id.start_workout_button);
 
-        // הגדרת פעולה שתתרחש בעת לחיצה על כפתור "Start Workout"
+        // כאשר המשתמש לוחץ על כפתור "Start Workout"
         startWorkoutButton.setOnClickListener(v -> {
-            // קריאה של הערכים שהמשתמש הכניס למשך האימון ועצימות האימון
-            String duration = durationEditText.getText().toString();
-            String intensity = intensityEditText.getText().toString();
+            // קריאה של הערכים שהמשתמש הכניס למשך האימון ולעצימות
+            String duration = durationEditText.getText().toString().trim();
+            String intensity = intensityEditText.getText().toString().trim();
 
-            // יצירת Intent להעברת הנתונים למסך הבא (WorkoutActivity)
+            // יצירת Intent להעברת הנתונים למסך האימון (WorkoutActivity)
             Intent intent = new Intent(WorkoutSetupActivity.this, WorkoutActivity.class);
 
             // הוספת הערכים שהמשתמש הכניס כנתונים ל-Intent
             intent.putExtra("duration", duration);
             intent.putExtra("intensity", intensity);
 
-            // מעבר למסך האימון (WorkoutActivity)
+            // מעבר למסך האימון בפועל
             startActivity(intent);
         });
     }

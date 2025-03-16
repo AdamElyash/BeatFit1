@@ -4,7 +4,8 @@ package com.example.beatfit;
  * מחלקת המודל המייצגת פלייליסט.
  * כל אובייקט מסוג זה מייצג פלייליסט יחיד שהתקבל מ-Spotify.
  */
-public class PlaylistItem {
+public class PlaylistItem
+{
     private String name; // שם הפלייליסט
     private String url;  // קישור לפלייליסט
 

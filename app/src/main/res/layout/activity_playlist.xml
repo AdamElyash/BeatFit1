@@ -101,5 +101,7 @@
             android:visibility="gone"
             android:id="@+id/spacerView" />
 
+        <!-- כפתור מעבר לאימון -->
+
     </LinearLayout>
 </FrameLayout>

@@ -1,43 +1,51 @@
 package com.example.beatfit;
 
 import android.os.Bundle;
-import android.os.CountDownTimer; // ייבוא מחלקת CountDownTimer לניהול טיימר
-import android.widget.ProgressBar; // ייבוא מחלקת ProgressBar להצגת התקדמות האימון
-import android.widget.TextView; // ייבוא מחלקת TextView להצגת טקסט על המסך
+import android.os.CountDownTimer;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity; // ייבוא מחלקת AppCompatActivity לניהול מסכי האפליקציה
+import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * אקטיביטי זה אחראי על ניהול האימון בפועל.
+ * מוצג טיימר שמתאר את הזמן שנותר לאימון, עם עדכון של ProgressBar.
+ */
 public class WorkoutActivity extends AppCompatActivity {
 
-    private CountDownTimer countDownTimer; // משתנה לנהל את הטיימר של האימון
+    private CountDownTimer countDownTimer; // משתנה לניהול הטיימר של האימון
+    private long totalTime; // משך הזמן הכולל של האימון (במילישניות)
+    private long interval = 1000; // מרווח העדכון של הטיימר (במילישניות)
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { // פונקציה שמופעלת בעת יצירת המסך
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_workout); // הגדרת ממשק המשתמש למסך האימון
+        setContentView(R.layout.activity_workout); // הגדרת ממשק המשתמש מהקובץ XML
 
-        // אתחול TextView להצגת הזמן הנותר
+        // אתחול TextView להצגת הזמן שנותר
         TextView timerTextView = findViewById(R.id.timer_text);
 
-        // אתחול ProgressBar להצגת ההתקדמות של האימון
+        // אתחול ProgressBar להצגת התקדמות האימון
         ProgressBar progressBar = findViewById(R.id.progress_bar);
 
-        // קביעת הזמן הכולל של האימון (30 שניות)
-        long totalTime = 30 * 1000; // 30 שניות בסך הכול, מומרות למילישניות
+        // קבלת הנתונים שהועברו מהמסך הקודם (משך האימון)
+        String durationStr = getIntent().getStringExtra("duration");
 
-        // קביעת מרווח העדכון (כל שנייה)
-        long interval = 1000; // עדכון כל 1 שניות
+        if (durationStr != null && !durationStr.isEmpty()) {
+            totalTime = Long.parseLong(durationStr) * 1000; // המרה לשניות * 1000 למילישניות
+        } else {
+            totalTime = 30 * 1000; // ברירת מחדל: 30 שניות אם אין נתון
+        }
 
-        // הגדרת הערך המקסימלי של ה-ProgressBar לפי הזמן הכולל חלקי המרווח
+        // הגדרת הערך המקסימלי של ה-ProgressBar לפי משך האימון
         progressBar.setMax((int) (totalTime / interval));
 
         // יצירת אובייקט של CountDownTimer לניהול הזמן של האימון
         countDownTimer = new CountDownTimer(totalTime, interval) {
             @Override
             public void onTick(long millisUntilFinished) {
-                // פעולה שמתבצעת בכל "טיק" של הטיימר
-                // הצגת הזמן הנותר ב-TextView
-                timerTextView.setText("Time remaining: " + millisUntilFinished / 1000 + " seconds");
+                // עדכון הזמן הנותר בתצוגה
+                timerTextView.setText("זמן שנותר: " + millisUntilFinished / 1000 + " שניות");
 
                 // עדכון ה-ProgressBar לפי הזמן שחלף
                 progressBar.setProgress((int) ((totalTime - millisUntilFinished) / interval));
@@ -45,8 +53,8 @@ public class WorkoutActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                // פעולה שמתבצעת כשהטיימר מסתיים
-                timerTextView.setText("Workout complete!"); // הצגת הודעה שהאימון הסתיים
+                // כאשר הטיימר מסתיים, הצגת הודעה שהאימון הסתיים
+                timerTextView.setText("האימון הסתיים!");
             }
         };
 
@@ -58,7 +66,7 @@ public class WorkoutActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        // בדיקה אם הטיימר פעיל, ובמקרה כזה עצירתו כדי למנוע זליגת זיכרון
+        // אם הטיימר פועל, עצירה שלו למניעת זליגת זיכרון
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
