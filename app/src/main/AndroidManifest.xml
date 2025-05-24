@@ -38,6 +38,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".WorkoutSetupActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".SpotifyRedirectActivity"
             android:exported="true">
             <intent-filter>

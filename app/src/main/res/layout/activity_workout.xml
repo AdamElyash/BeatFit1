@@ -4,61 +4,94 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Background Image -->
+    <!-- תמונת רקע -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/background_image_activty_workout2" />
+        android:src="@drawable/lebron"
+        tools:ignore="ContentDescription" />
 
-    <!-- Transparent Overlay -->
+    <!-- שכבת כהות שקופה -->
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#80000000" />
 
-    <!-- Content Layout -->
+    <!-- התוכן המרכזי -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="24dp">
 
-        <!-- Timer Text -->
+        <!-- כותרת -->
         <TextView
-            android:id="@+id/timer_text"
+            android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="30:00"
-            android:textSize="24sp"
+            android:text="Workout Timer"
+            android:textSize="28sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:gravity="center"
+            android:layout_marginBottom="16dp"
             android:shadowColor="#000000"
             android:shadowDx="2"
             android:shadowDy="2"
-            android:shadowRadius="3"
-            android:paddingBottom="24dp" />
+            android:shadowRadius="4" />
 
-        <!-- Progress Bar -->
+        <!-- טיימר -->
+        <TextView
+            android:id="@+id/timerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30:00"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="24dp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4" />
+
+        <!-- ProgressBar אופקי -->
         <ProgressBar
-            android:id="@+id/progress_bar"
+            android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:progress="0"
+            android:max="100"
+            android:progressTint="@android:color/holo_green_light"
             android:layout_marginBottom="24dp" />
 
-        <!-- Next Button -->
+        <!-- כפתור Pause -->
         <Button
-            android:id="@+id/next_button_workout_setup"
+            android:id="@+id/pauseButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Next"
-            android:textSize="16sp"
+            android:text="Pause"
+            android:textSize="18sp"
             android:background="@drawable/rounded_button"
-            android:textColor="#000000"
+            android:textColor="@android:color/white"
             android:padding="12dp"
+            android:layout_marginBottom="12dp"
+            android:elevation="4dp"
+            tools:ignore="VisualLintButtonSize" />
+
+        <!-- כפתור Finish -->
+        <Button
+            android:id="@+id/finishButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Finish Workout"
+            android:textSize="18sp"
+            android:background="@drawable/rounded_button"
+            android:textColor="@android:color/white"
+            android:padding="12dp"
+            android:elevation="4dp"
             tools:ignore="VisualLintButtonSize" />
 
     </LinearLayout>

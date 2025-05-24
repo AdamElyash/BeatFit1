@@ -2,45 +2,52 @@ package com.example.beatfit;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * אקטיביטי זה מאפשר למשתמש להגדיר את פרטי האימון לפני תחילתו.
- * המשתמש מזין את משך האימון ורמת העצימות, ונתונים אלו מועברים למסך האימון בפועל.
+ * מסך הגדרת אימון — מאפשר למשתמש לבחור כמה דקות יימשך האימון.
  */
 public class WorkoutSetupActivity extends AppCompatActivity {
 
+    private EditText minutesInput;
+    private Button startWorkoutButton;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) { // פונקציה המופעלת כאשר האקטיביטי נטען
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_workout_setup); // קביעת ממשק המשתמש מהקובץ XML
+        setContentView(R.layout.activity_workout_setup);
 
-        // רכיב EditText להזנת משך האימון (בשניות/דקות)
-        EditText durationEditText = findViewById(R.id.duration_edit_text);
+        minutesInput = findViewById(R.id.minutesInput);
+        startWorkoutButton = findViewById(R.id.startWorkoutButton);
 
-        // רכיב EditText להזנת רמת העצימות של האימון
-        EditText intensityEditText = findViewById(R.id.intensity_edit_text);
-
-        // כפתור "Start Workout" להתחלת האימון
-        Button startWorkoutButton = findViewById(R.id.start_workout_button);
-
-        // כאשר המשתמש לוחץ על כפתור "Start Workout"
         startWorkoutButton.setOnClickListener(v -> {
-            // קריאה של הערכים שהמשתמש הכניס למשך האימון ולעצימות
-            String duration = durationEditText.getText().toString().trim();
-            String intensity = intensityEditText.getText().toString().trim();
+            String minutesStr = minutesInput.getText().toString();
 
-            // יצירת Intent להעברת הנתונים למסך האימון (WorkoutActivity)
+            if (TextUtils.isEmpty(minutesStr)) {
+                Toast.makeText(WorkoutSetupActivity.this, "Please enter workout time (minutes)", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int minutes;
+            try {
+                minutes = Integer.parseInt(minutesStr);
+            } catch (NumberFormatException e) {
+                Toast.makeText(WorkoutSetupActivity.this, "Invalid number format", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (minutes <= 0) {
+                Toast.makeText(WorkoutSetupActivity.this, "Workout time must be greater than zero", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Intent intent = new Intent(WorkoutSetupActivity.this, WorkoutActivity.class);
-
-            // הוספת הערכים שהמשתמש הכניס כנתונים ל-Intent
-            intent.putExtra("duration", duration);
-            intent.putExtra("intensity", intensity);
-
-            // מעבר למסך האימון בפועל
+            intent.putExtra("workoutMinutes", minutes);
             startActivity(intent);
         });
     }

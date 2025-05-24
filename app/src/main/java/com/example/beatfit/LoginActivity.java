@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() { // פונקציה שתרוץ כשמתקבלת תוצאה מהאקטיביטי שהופעל
                 @Override
                 public void onActivityResult(ActivityResult result) { // פונקציה שמופעלת לאחר קבלת תוצאה
-                    if (result.getResultCode() == RESULT_OK) { // אם ההתחברות הצליחה
+                    if (result.getResultCode() == RESULT_OK) {  // אם ההתחברות הצליחה
                         Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData()); // ניסיון לקבל את החשבון שנכנס
                         try {
                             GoogleSignInAccount signInAccount = accountTask.getResult(ApiException.class); // קבלת חשבון המשתמש

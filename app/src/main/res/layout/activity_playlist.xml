@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/kendrickbackground" />
+        android:src="@drawable/kendrickbackground"
+        tools:ignore="ContentDescription" />
 
     <!-- שכבת חפיפה כהה -->
     <View
@@ -18,31 +19,30 @@
         android:layout_height="match_parent"
         android:background="#800000AA" />
 
-    <!-- פריסת תוכן -->
+    <!-- תוכן מרכזי -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="16dp">
 
-        <!-- כותרת דינאמית -->
+        <!-- כותרת -->
         <TextView
             android:id="@+id/playlist_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recommended Playlists"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:gravity="center"
             android:shadowColor="#000000"
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="4"
-            android:paddingBottom="8dp" />
+            android:layout_marginBottom="8dp" />
 
-        <!-- הודעה על טעינת פלייליסטים -->
+        <!-- הודעת טעינה -->
         <TextView
             android:id="@+id/playlist_message"
             android:layout_width="wrap_content"
@@ -51,20 +51,18 @@
             android:textSize="18sp"
             android:textStyle="italic"
             android:textColor="@android:color/white"
-            android:gravity="center"
             android:shadowColor="#000000"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="3"
-            android:paddingBottom="12dp" />
+            android:layout_marginBottom="12dp" />
 
-        <!-- ProgressBar לטעינת הנתונים -->
+        <!-- ProgressBar -->
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_gravity="center" />
+            android:visibility="gone" />
 
         <!-- הודעת שגיאה -->
         <TextView
@@ -75,14 +73,8 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:gravity="center"
-            android:shadowColor="#000000"
-            android:shadowDx="2"
-            android:shadowDy="2"
-            android:shadowRadius="4"
             android:visibility="gone"
-            android:layout_gravity="center"
-            android:paddingBottom="12dp"/>
+            android:layout_marginBottom="12dp" />
 
         <!-- רשימת הפלייליסטים -->
         <androidx.recyclerview.widget.RecyclerView
@@ -92,16 +84,23 @@
             android:layout_weight="1"
             android:visibility="gone"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"/>
-
-        <!-- חיץ לריווח -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:visibility="gone"
-            android:id="@+id/spacerView" />
+            android:paddingBottom="8dp" />
 
         <!-- כפתור מעבר לאימון -->
+        <Button
+            android:id="@+id/startWorkoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start Workout"
+            android:textSize="18sp"
+            android:background="@drawable/rounded_button"
+            android:textColor="@android:color/white"
+            android:padding="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:elevation="4dp"
+            android:visibility="gone"
+            tools:ignore="VisualLintButtonSize" />
 
     </LinearLayout>
 </FrameLayout>

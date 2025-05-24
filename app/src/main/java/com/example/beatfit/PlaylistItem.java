@@ -8,11 +8,18 @@ public class PlaylistItem
 {
     private String name; // שם הפלייליסט
     private String url;  // קישור לפלייליסט
+    private String description; // תיאור הפלייליסט
 
-    // קונסטרקטור
-    public PlaylistItem(String name, String url) {
+    // קונסטרקטור עם תיאור
+    public PlaylistItem(String name, String url, String description) {
         this.name = name;
         this.url = url;
+        this.description = description != null ? description : "";
+    }
+
+    // קונסטרקטור ללא תיאור (לתאימות לאחור)
+    public PlaylistItem(String name, String url) {
+        this(name, url, "");
     }
 
     // Getter עבור שם הפלייליסט
@@ -25,11 +32,17 @@ public class PlaylistItem
         return url;
     }
 
+    // Getter עבור תיאור הפלייליסט
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public String toString() {
         return "PlaylistItem{" +
                 "name='" + name + '\'' +
                 ", url='" + url + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

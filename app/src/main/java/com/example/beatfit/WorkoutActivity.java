@@ -2,71 +2,102 @@ package com.example.beatfit;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.widget.ProgressBar;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Locale;
+
 /**
- * אקטיביטי זה אחראי על ניהול האימון בפועל.
- * מוצג טיימר שמתאר את הזמן שנותר לאימון, עם עדכון של ProgressBar.
+ * מסך אימון — מציג ספירת זמן לאחור לפי הדקות שהוזנו, עם כפתורי Pause ו-Finish.
  */
 public class WorkoutActivity extends AppCompatActivity {
+    private TextView timerTextView;
+    private Button pauseButton, finishButton;
 
-    private CountDownTimer countDownTimer; // משתנה לניהול הטיימר של האימון
-    private long totalTime; // משך הזמן הכולל של האימון (במילישניות)
-    private long interval = 1000; // מרווח העדכון של הטיימר (במילישניות)
+    private CountDownTimer countDownTimer;
+    private boolean isTimerRunning = false;
+    private boolean isPaused = false;
+    private long timeLeftInMillis;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) { // פונקציה שמופעלת בעת יצירת המסך
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_workout); // הגדרת ממשק המשתמש מהקובץ XML
+        setContentView(R.layout.activity_workout);
 
-        // אתחול TextView להצגת הזמן שנותר
-        TextView timerTextView = findViewById(R.id.timer_text);
+        timerTextView = findViewById(R.id.timerTextView);
+        pauseButton = findViewById(R.id.pauseButton);
+        finishButton = findViewById(R.id.finishButton);
 
-        // אתחול ProgressBar להצגת התקדמות האימון
-        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        int minutes = getIntent().getIntExtra("workoutMinutes", 1); // ברירת מחדל דקה
+        timeLeftInMillis = minutes * 60 * 1000;
 
-        // קבלת הנתונים שהועברו מהמסך הקודם (משך האימון)
-        String durationStr = getIntent().getStringExtra("duration");
+        startTimer();
 
-        if (durationStr != null && !durationStr.isEmpty()) {
-            totalTime = Long.parseLong(durationStr) * 1000; // המרה לשניות * 1000 למילישניות
-        } else {
-            totalTime = 30 * 1000; // ברירת מחדל: 30 שניות אם אין נתון
-        }
+        pauseButton.setOnClickListener(v -> {
+            if (isTimerRunning) {
+                pauseTimer();
+            } else {
+                resumeTimer();
+            }
+        });
 
-        // הגדרת הערך המקסימלי של ה-ProgressBar לפי משך האימון
-        progressBar.setMax((int) (totalTime / interval));
+        finishButton.setOnClickListener(v -> finishWorkout());
+    }
 
-        // יצירת אובייקט של CountDownTimer לניהול הזמן של האימון
-        countDownTimer = new CountDownTimer(totalTime, interval) {
+    private void startTimer() {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                // עדכון הזמן הנותר בתצוגה
-                timerTextView.setText("זמן שנותר: " + millisUntilFinished / 1000 + " שניות");
-
-                // עדכון ה-ProgressBar לפי הזמן שחלף
-                progressBar.setProgress((int) ((totalTime - millisUntilFinished) / interval));
+                timeLeftInMillis = millisUntilFinished;
+                updateTimerText();
+                isTimerRunning = true;
             }
 
             @Override
             public void onFinish() {
-                // כאשר הטיימר מסתיים, הצגת הודעה שהאימון הסתיים
-                timerTextView.setText("האימון הסתיים!");
+                isTimerRunning = false;
+                timerTextView.setText("Workout Complete!");
+                pauseButton.setEnabled(false);
+                finishButton.setEnabled(false);
             }
-        };
+        }.start();
+    }
 
-        // הפעלת הטיימר
-        countDownTimer.start();
+    private void pauseTimer() {
+        countDownTimer.cancel();
+        isTimerRunning = false;
+        isPaused = true;
+        pauseButton.setText("Resume");
+    }
+
+    private void resumeTimer() {
+        startTimer();
+        isPaused = false;
+        pauseButton.setText("Pause");
+    }
+
+    private void finishWorkout() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+        isTimerRunning = false;
+        timerTextView.setText("Workout Finished!");
+        pauseButton.setEnabled(false);
+        finishButton.setEnabled(false);
+    }
+
+    private void updateTimerText() {
+        int minutes = (int) (timeLeftInMillis / 1000) / 60;
+        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+        String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        timerTextView.setText(timeFormatted);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        // אם הטיימר פועל, עצירה שלו למניעת זליגת זיכרון
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
